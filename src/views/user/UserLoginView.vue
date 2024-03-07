@@ -1,6 +1,7 @@
 <template>
   <div id="userLoginView">
-    <h2 style="margin-bottom: 16px">用户登录</h2>
+    <h1 style="margin-bottom: 16px; color: #e5f2ff">用户登录</h1>
+    <a-space></a-space>
     <a-form
       style="max-width: 480px; margin: 0 auto"
       label-align="left"

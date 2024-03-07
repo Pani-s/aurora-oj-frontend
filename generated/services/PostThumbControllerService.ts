@@ -1,7 +1,7 @@
+/* eslint-disable */
 /* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
-/* eslint-disable */
 import type { BaseResponse_int_ } from "../models/BaseResponse_int_";
 import type { PostThumbAddRequest } from "../models/PostThumbAddRequest";
 import type { CancelablePromise } from "../core/CancelablePromise";

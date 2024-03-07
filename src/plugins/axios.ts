@@ -1,8 +1,9 @@
 // Add a request interceptor
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 import axios from "axios";
+
+axios.defaults.withCredentials = true;
+//事实证明我们加了这个也不能覆盖掉OPENAPI的配置，所以目前还是要手动去改那边的值
 
 axios.interceptors.request.use(
   function (config: any) {
