@@ -9,7 +9,7 @@
 
 <script setup lang="ts">
 import * as monaco from "monaco-editor";
-import { defineProps, onMounted, ref, toRaw, withDefaults } from "vue";
+import { defineProps, onMounted, ref, toRaw, watch, withDefaults } from "vue";
 
 /**
  * 定义组件属性类型
@@ -44,12 +44,14 @@ onMounted(() => {
     language: "java",
     automaticLayout: true,
     colorDecorators: true,
-    // minimap: {
-    //   enabled: true,
-    // },
+    minimap: {
+      enabled: false,
+    },
     readOnly: false,
-    theme: "vs-dark",
+    theme: "vs",
     lineNumbers: "on",
+    fontSize: 20,
+    //todo: 更改字体大小和主题！
     // roundedSelection: false,
     // scrollBeyondLastLine: false,
   });
@@ -59,6 +61,18 @@ onMounted(() => {
     props.handleChange(toRaw(codeEditor.value).getValue());
   });
 });
+
+watch(
+  () => props.language,
+  () => {
+    if (codeEditor.value) {
+      monaco.editor.setModelLanguage(
+        toRaw(codeEditor.value).getModel(),
+        props.language
+      );
+    }
+  }
+);
 
 // const fillValue = () => {
 //   if (!codeEditor.value) {
