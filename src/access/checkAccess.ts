@@ -1,4 +1,5 @@
 import ACCESS_ENUM from "@/access/accessEnum";
+import message from "@arco-design/web-vue/es/message";
 
 /**
  * 检查权限（判断当前登录用户是否具有某个权限）

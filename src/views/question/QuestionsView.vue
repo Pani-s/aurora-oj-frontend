@@ -8,7 +8,13 @@
         <a-input-tag v-model="searchParams.tags" placeholder="请输入标签" />
       </a-form-item>
       <a-form-item>
-        <a-button type="primary" @click="doSubmit">提交</a-button>
+        <a-button
+          type="outline"
+          @click="doSubmit"
+          shape="round"
+          style="color: #9685cc; border-color: #9685cc"
+          >搜索
+        </a-button>
       </a-form-item>
     </a-form>
     <a-divider size="0" />
@@ -26,7 +32,7 @@
     >
       <template #tags="{ record }">
         <a-space wrap>
-          <a-tag v-for="(tag, index) of record.tags" :key="index" color="green"
+          <a-tag v-for="(tag, index) of record.tags" :key="index" color="orange"
             >{{ tag }}
           </a-tag>
         </a-space>
@@ -45,9 +51,7 @@
       </template>
       <template #optional="{ record }">
         <a-space>
-          <a-button type="primary" @click="toQuestionPage(record)">
-            做题
-          </a-button>
+          <a-button id="btn" @click="toQuestionPage(record)"> 做题</a-button>
         </a-space>
       </template>
     </a-table>
@@ -55,7 +59,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watchEffect } from "vue";
+import { onMounted, ref } from "vue";
 import {
   Question,
   QuestionControllerService,
@@ -71,28 +75,29 @@ const total = ref(0);
 const searchParams = ref<QuestionQueryRequest>({
   title: "",
   tags: [],
-  pageSize: 2,
+  pageSize: 5,
   current: 1,
 });
 
 const loadData = async () => {
+  console.log(searchParams.value);
   const res = await QuestionControllerService.listQuestionVoByPageUsingPost(
     searchParams.value
   );
   if (res.code === 0) {
-    dataList.value = res.data.records;
-    total.value = res.data.total;
+    dataList.value = res?.data?.records;
+    total.value = res?.data?.total;
   } else {
     message.error("加载失败，" + res.message);
   }
 };
 
-/**
- * 监听 searchParams 变量，改变时触发页面的重新加载
- */
-watchEffect(() => {
-  loadData();
-});
+// /**
+//  * 监听 searchParams 变量，改变时触发页面的重新加载
+//  */
+// watchEffect(() => {
+//   loadData();
+// });
 
 /**
  * 页面加载时，请求数据
@@ -157,12 +162,25 @@ const doSubmit = () => {
     ...searchParams.value,
     current: 1,
   };
+  loadData();
 };
 </script>
 
-<style scoped>
+<style>
 #questionsView {
   max-width: 1280px;
-  margin: 0 auto;
+  /*margin: 0 auto;*/
+  padding-left: 8%;
+  padding-right: 8%;
+}
+
+#btn {
+  background-color: #cebeff;
+  color: #ffffff;
+}
+
+#btn:hover {
+  background-color: #9685cc;
+  transition: 0.5s;
 }
 </style>

@@ -8,6 +8,8 @@ import ManageQuestionView from "@/views/question/ManageQuestionView.vue";
 import AddQuestionView from "@/views/question/AddQuestionView.vue";
 import QuestionsView from "@/views/question/QuestionsView.vue";
 import ViewQuestionView from "@/views/question/ViewQuestionView.vue";
+import QuestionSubmitView from "@/views/question/QuestionSubmitView.vue";
+import TestView from "@/views/TestView.vue";
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -31,10 +33,21 @@ export const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/questions",
-    name: "浏览题目",
+    path: "/",
+    name: "主页",
     component: QuestionsView,
   },
+  // {
+  //   path: "/questions",
+  //   name: "题库",
+  //   component: QuestionsView,
+  // },
+  {
+    path: "/question_submit",
+    name: "提交列表",
+    component: QuestionSubmitView,
+  },
+
   {
     //定义动态参数路由，开启 props 为 true，可以在页面的 props 中直接获取到动态参数（题目 id）
     path: "/view/question/:id",
@@ -61,6 +74,7 @@ export const routes: Array<RouteRecordRaw> = [
     component: AddQuestionView,
     meta: {
       access: ACCESS_ENUM.ADMIN,
+      hideInMenu: true,
     },
   },
   {
@@ -70,11 +84,6 @@ export const routes: Array<RouteRecordRaw> = [
     meta: {
       access: ACCESS_ENUM.ADMIN,
     },
-  },
-  {
-    path: "/",
-    name: "主页",
-    component: QuestionsView,
   },
 
   //test
@@ -104,7 +113,7 @@ export const routes: Array<RouteRecordRaw> = [
   // },
   {
     path: "/about",
-    name: "关于我的",
+    name: "关于",
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.

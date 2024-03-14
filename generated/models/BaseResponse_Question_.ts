@@ -9,3 +9,4 @@ export type BaseResponse_Question_ = {
   data?: Question;
   message?: string;
 };
+

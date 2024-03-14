@@ -10,11 +10,21 @@
         current: searchParams.current,
         total,
       }"
+      style="accent-color: #51416b"
       @page-change="onPageChange"
     >
+      <template #tags="{ record }">
+        <a-space wrap>
+          <a-tag v-for="(tag, index) of record.tags" :key="index" color="orange"
+            >{{ tag }}
+          </a-tag>
+        </a-space>
+      </template>
       <template #optional="{ record }">
         <a-space>
-          <a-button type="primary" @click="doUpdate(record)"> 修改</a-button>
+          <a-button type="primary" @click="doUpdate(record)" id="btn">
+            修改
+          </a-button>
           <a-button status="danger" @click="doDelete(record)">删除</a-button>
         </a-space>
       </template>
@@ -30,7 +40,7 @@ import { useRouter } from "vue-router";
 
 const tableRef = ref();
 
-const dataList = ref([]);
+const dataList = ref<Array<Question>>([]);
 const total = ref(0);
 const searchParams = ref({
   pageSize: 10,
@@ -42,8 +52,20 @@ const loadData = async () => {
     searchParams.value
   );
   if (res.code === 0) {
-    dataList.value = res.data.records;
-    total.value = res.data.total;
+    dataList.value = res?.data?.records;
+    //这个故事告诉我们，没有好的前端基础不要想着：懒得后端转换交给前端吧！
+    dataList.value.forEach((item) => {
+      try {
+        // 解析details字段的JSON字符串
+        item.judgeConfig = JSON.parse(item.judgeConfig);
+        item.tags = JSON.parse(item.tags);
+      } catch (error) {
+        console.error("Parsing error for item!!!啊啊啊啊");
+        // 可以选择设置为null或者保留原始字符串
+        item.judgeConfig = null;
+      }
+    });
+    total.value = res?.data?.total;
   } else {
     message.error("加载失败，" + res.message);
   }
@@ -63,56 +85,73 @@ onMounted(() => {
   loadData();
 });
 
-// {id: "1", title: "A+ D", content: "新的题目内容", tags: "["二叉树"]", answer: "新的答案", submitNum: 0,…}
-
 const columns = [
   {
     title: "id",
     dataIndex: "id",
+    width: 80,
   },
   {
     title: "标题",
     dataIndex: "title",
-  },
-  {
-    title: "内容",
-    dataIndex: "content",
+    ellipsis: true,
+    tooltip: true,
+    width: 180,
   },
   {
     title: "标签",
     dataIndex: "tags",
-  },
-  {
-    title: "答案",
-    dataIndex: "answer",
+    slotName: "tags",
+    width: 180,
   },
   {
     title: "提交数",
     dataIndex: "submitNum",
+    width: 50,
   },
   {
     title: "通过数",
     dataIndex: "acceptedNum",
+    width: 50,
   },
   {
     title: "判题配置",
     dataIndex: "judgeConfig",
+    children: [
+      {
+        title: "时间限制",
+        dataIndex: "judgeConfig.timeLimit",
+        width: 80,
+      },
+      {
+        title: "内存限制",
+        dataIndex: "judgeConfig.memoryLimit",
+        width: 80,
+      },
+      {
+        title: "堆栈限制",
+        dataIndex: "judgeConfig.stackLimit",
+        width: 80,
+      },
+    ],
+    width: 240,
   },
   {
-    title: "判题用例",
-    dataIndex: "judgeCase",
-  },
-  {
-    title: "用户id",
+    title: "创建用户id",
     dataIndex: "userId",
+    ellipsis: true,
+    tooltip: true,
+    width: 140,
   },
   {
     title: "创建时间",
     dataIndex: "createTime",
+    width: 170,
   },
   {
     title: "操作",
     slotName: "optional",
+    width: 170,
   },
 ];
 
@@ -147,7 +186,23 @@ const doUpdate = (question: Question) => {
 };
 </script>
 
-<style scoped>
+<style>
 #manageQuestionView {
+  padding-left: 8%;
+  padding-right: 8%;
+}
+
+#btn {
+  background-color: #cebeff;
+  color: #ffffff;
+}
+
+#btn:hover {
+  background-color: #9685cc;
+  transition: 0.3s;
+}
+
+.arco-table-th {
+  background-color: rgba(238, 236, 248, 0.61);
 }
 </style>
