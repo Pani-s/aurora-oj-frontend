@@ -29,7 +29,7 @@
           <a-avatar
             class="avatar"
             shape="circle"
-            :style="{ backgroundColor: '#c6daff' }"
+            :style="{ backgroundColor: '#cac6ff' }"
             >{{ store.state.user?.loginUser?.userName ?? "未登录" }}
           </a-avatar>
           <template #content>

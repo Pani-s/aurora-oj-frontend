@@ -17,6 +17,7 @@ import { defineProps, onMounted, ref, toRaw, watch, withDefaults } from "vue";
 interface Props {
   value: string;
   language?: string;
+  theme?: string;
   handleChange: (v: string) => void;
 }
 
@@ -26,6 +27,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   value: () => "",
   language: () => "java",
+  theme: () => "vs-light",
   handleChange: (v: string) => {
     console.log(v);
   },
@@ -48,7 +50,7 @@ onMounted(() => {
       enabled: false,
     },
     readOnly: false,
-    theme: "vs",
+    theme: "vs-light",
     lineNumbers: "on",
     fontSize: 20,
     //todo: 更改字体大小和主题！
@@ -70,6 +72,17 @@ watch(
         toRaw(codeEditor.value).getModel(),
         props.language
       );
+    }
+  }
+);
+
+watch(
+  () => props.theme,
+  () => {
+    if (codeEditor.value) {
+      // console.log("你能不能让我改一下主题？？？？？");
+      //解决了因为interface Props 哪里没加上
+      monaco.editor.setTheme(props.theme);
     }
   }
 );

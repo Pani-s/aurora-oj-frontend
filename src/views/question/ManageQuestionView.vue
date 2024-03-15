@@ -25,7 +25,14 @@
           <a-button type="primary" @click="doUpdate(record)" id="btn">
             修改
           </a-button>
-          <a-button status="danger" @click="doDelete(record)">删除</a-button>
+          <a-popconfirm
+            content="确定要删除吗?"
+            type="warning"
+            @ok="doDelete(record)"
+          >
+            <a-button status="danger">删除</a-button>
+            <!--            @click="doDelete(record)-->
+          </a-popconfirm>
         </a-space>
       </template>
     </a-table>

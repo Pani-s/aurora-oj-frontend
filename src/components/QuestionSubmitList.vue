@@ -1,32 +1,6 @@
 <template>
-  <div id="questionSubmitView">
-    <a-form :model="searchParams" layout="inline">
-      <a-form-item field="questionId" label="题号" style="min-width: 240px">
-        <a-input v-model="searchParams.questionId" placeholder="请输入" />
-      </a-form-item>
-      <a-form-item field="language" label="编程语言" style="min-width: 240px">
-        <a-select
-          v-model="searchParams.language"
-          :style="{ width: '320px' }"
-          placeholder="选择编程语言"
-        >
-          <a-option>java</a-option>
-          <a-option>cpp</a-option>
-          <a-option>go</a-option>
-          <a-option>html</a-option>
-        </a-select>
-      </a-form-item>
-      <a-form-item>
-        <a-button
-          type="outline"
-          @click="doSubmit"
-          shape="round"
-          style="color: #9685cc; border-color: #9685cc"
-          >搜索
-        </a-button>
-      </a-form-item>
-    </a-form>
-    <a-divider size="0" />
+  <div id="questionSubmitList">
+    <h2 style="color: #51416b">让我看看大家的提交</h2>
     <a-table
       :ref="tableRef"
       :columns="columns"
@@ -61,40 +35,56 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watchEffect } from "vue";
+import { defineProps, onMounted, ref, withDefaults } from "vue";
 import {
   QuestionControllerService,
   QuestionSubmit,
   QuestionSubmitQueryRequest,
-} from "../../../generated";
+} from "../../generated";
 import message from "@arco-design/web-vue/es/message";
-import { useRouter } from "vue-router";
 import { QuestionStateEnum } from "@/views/question/QuestionStateEnum";
+
+/**
+ * 定义组件属性类型
+ */
+interface Props {
+  questionId: string;
+}
+
+/**
+ * 给组件指定初始值
+ */
+const props = withDefaults(defineProps<Props>(), {
+  questionId: () => "",
+});
 
 const tableRef = ref();
 
 const dataList = ref([]);
 const total = ref(0);
 const searchParams = ref<QuestionSubmitQueryRequest>({
-  questionId: undefined,
+  questionId: props.questionId,
   language: undefined,
   pageSize: 10,
   current: 1,
+  sortOrder: "descend",
+  sortField: "updateTime",
 });
 
 const loadData = async () => {
-  const res =
-    await QuestionControllerService.listAllSubmitQuestionByPageUsingPost({
+  const res = await QuestionControllerService.listSubmitQuestionByPageUsingPost(
+    {
       ...searchParams.value,
       sortField: "createTime",
       sortOrder: "descend",
-    });
+    }
+  );
   if (res.code === 0) {
     dataList.value = res?.data?.records;
     dataList.value.forEach((item: QuestionSubmit) => {
       item.status = QuestionStateEnum[item.status];
       item.userId = maskNumber(item?.userId);
-      item.judgeInfo = JSON.parse(item.judgeInfo);
+      // item.judgeInfo = JSON.parse(item.judgeInfo);
       // if (item.judgeInfo.memory == 0) {
       //   item.judgeInfo.memory = "-";
       // }
@@ -123,13 +113,6 @@ function maskNumber(number: number) {
 }
 
 /**
- * 监听 searchParams 变量，改变时触发页面的重新加载
- */
-watchEffect(() => {
-  loadData();
-});
-
-/**
  * 页面加载时，请求数据
  */
 onMounted(() => {
@@ -141,12 +124,12 @@ const columns = [
     title: "提交号",
     dataIndex: "id",
     ellipsis: true,
-    width: 120,
+    width: 80,
   },
   {
     title: "编程语言",
     dataIndex: "language",
-    width: 150,
+    width: 80,
   },
   {
     title: "判题信息",
@@ -155,41 +138,36 @@ const columns = [
       {
         title: "执行信息",
         dataIndex: "judgeInfo.message",
-        width: 160,
+        width: 100,
       },
       {
         title: "执行内存",
         dataIndex: "judgeInfo.memory",
-        width: 100,
+        width: 60,
       },
       {
         title: "执行时间",
         dataIndex: "judgeInfo.time",
-        width: 100,
+        width: 60,
       },
     ],
-    width: 340,
+    width: 220,
   },
   {
     title: "判题状态",
     dataIndex: "status",
     slotName: "status",
-    width: 100,
-  },
-  {
-    title: "题目 id",
-    dataIndex: "questionId",
-    width: 100,
+    width: 110,
   },
   {
     title: "提交者 id",
     dataIndex: "userId",
-    width: 170,
+    width: 80,
   },
   {
-    title: "创建时间",
-    // slotName: "createTime",
-    dataIndex: "createTime",
+    title: "时间",
+    dataIndex: "updateTime",
+    width: 100,
   },
 ];
 
@@ -198,19 +176,7 @@ const onPageChange = (page: number) => {
     ...searchParams.value,
     current: page,
   };
-};
-
-const router = useRouter();
-
-/**
- * 确认搜索，重新加载数据
- */
-const doSubmit = () => {
-  // 这里需要重置搜索页号
-  searchParams.value = {
-    ...searchParams.value,
-    current: 1,
-  };
+  loadData();
 };
 
 const getStatusColor = (statusEnum: string) => {
@@ -229,10 +195,6 @@ const getStatusColor = (statusEnum: string) => {
 </script>
 
 <style scoped>
-#questionSubmitView {
-  max-width: 1280px;
-  /*margin: 0 auto;*/
-  padding-left: 8%;
-  padding-right: 8%;
+#questionSubmitList table {
 }
 </style>
