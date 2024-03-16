@@ -53,7 +53,7 @@ onMounted(() => {
     theme: "vs-light",
     lineNumbers: "on",
     fontSize: 20,
-    //todo: 更改字体大小和主题！
+    //字体暂时没有找到更改的方法
     // roundedSelection: false,
     // scrollBeyondLastLine: false,
   });

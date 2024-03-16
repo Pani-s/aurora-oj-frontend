@@ -2,7 +2,7 @@
   <div id="viewQuestionView">
     <a-row :gutter="[24, 24]">
       <a-col :md="12" :xs="24">
-        <a-tabs default-active-key="question">
+        <a-tabs default-active-key="question" lazy-load animation>
           <a-tab-pane key="question" title="题目">
             <a-card v-if="question" :title="question.title">
               <a-descriptions
@@ -33,8 +33,9 @@
             </a-card>
           </a-tab-pane>
           <a-tab-pane key="comment" title="评论" disabled> 评论区</a-tab-pane>
-          <a-tab-pane key="answer" title="答案"
-            >暂时无法查看答案，请自己想想吧！
+          <a-tab-pane key="answer" title="答案">
+            <!--            destroy-on-hide-->
+            <answer-panel :questionId="id" />
           </a-tab-pane>
           <a-tab-pane key="submit" title="提交结果">
             <question-submit-list :questionId="id" />
@@ -88,6 +89,7 @@ import message from "@arco-design/web-vue/es/message";
 import CodeEditor from "@/components/CodeEditor.vue";
 import MdViewer from "@/components/MdViewer.vue";
 import QuestionSubmitList from "@/components/QuestionSubmitList.vue";
+import AnswerPanel from "@/components/AnswerPanel.vue";
 
 interface Props {
   id: string;

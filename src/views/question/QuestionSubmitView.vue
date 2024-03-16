@@ -174,12 +174,12 @@ const columns = [
     title: "判题状态",
     dataIndex: "status",
     slotName: "status",
-    width: 100,
+    width: 120,
   },
   {
     title: "题目 id",
     dataIndex: "questionId",
-    width: 100,
+    width: 120,
   },
   {
     title: "提交者 id",
@@ -218,7 +218,7 @@ const getStatusColor = (statusEnum: string) => {
     return "orange";
   } else if (statusEnum === "WAITING") {
     return "lightblue";
-  } else if (statusEnum === "SUCCEED") {
+  } else if (statusEnum === "FINISHED") {
     return "green";
   } else if (statusEnum === "FAILED") {
     return "red";

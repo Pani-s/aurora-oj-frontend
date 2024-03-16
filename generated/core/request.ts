@@ -1,5 +1,10 @@
 /* generated using openapi-typescript-codegen -- do no edit */
-import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import type {
+  AxiosError,
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosResponse,
+} from "axios";
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */

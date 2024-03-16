@@ -109,10 +109,10 @@ onMounted(() => {
 // {id: "1", title: "A+ D", content: "新的题目内容", tags: "["二叉树"]", answer: "新的答案", submitNum: 0,…}
 
 const columns = [
-  {
-    title: "题号",
-    dataIndex: "id",
-  },
+  // {
+  //   title: "题号",
+  //   dataIndex: "id",
+  // },
   {
     title: "题目名称",
     dataIndex: "title",

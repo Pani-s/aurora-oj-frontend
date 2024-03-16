@@ -1,8 +1,7 @@
-/* eslint-disable */
 /* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
-
+/* eslint-disable */
 import type { BaseResponse_boolean_ } from "../models/BaseResponse_boolean_";
 import type { BaseResponse_LoginUserVO_ } from "../models/BaseResponse_LoginUserVO_";
 import type { BaseResponse_long_ } from "../models/BaseResponse_long_";
@@ -39,8 +38,8 @@ export class UserControllerService {
       errors: {
         401: `Unauthorized`,
         403: `Forbidden`,
-        404: `Not Found`,
-      },
+        404: `Not Found`
+      }
     });
   }
 
@@ -61,8 +60,8 @@ export class UserControllerService {
       errors: {
         401: `Unauthorized`,
         403: `Forbidden`,
-        404: `Not Found`,
-      },
+        404: `Not Found`
+      }
     });
   }
 
@@ -79,13 +78,13 @@ export class UserControllerService {
       method: "GET",
       url: "/api/user/get",
       query: {
-        id: id,
+        "id": id
       },
       errors: {
         401: `Unauthorized`,
         403: `Forbidden`,
-        404: `Not Found`,
-      },
+        404: `Not Found`
+      }
     });
   }
 
@@ -101,8 +100,8 @@ export class UserControllerService {
       errors: {
         401: `Unauthorized`,
         403: `Forbidden`,
-        404: `Not Found`,
-      },
+        404: `Not Found`
+      }
     });
   }
 
@@ -119,13 +118,13 @@ export class UserControllerService {
       method: "GET",
       url: "/api/user/get/vo",
       query: {
-        id: id,
+        "id": id
       },
       errors: {
         401: `Unauthorized`,
         403: `Forbidden`,
-        404: `Not Found`,
-      },
+        404: `Not Found`
+      }
     });
   }
 
@@ -146,8 +145,8 @@ export class UserControllerService {
       errors: {
         401: `Unauthorized`,
         403: `Forbidden`,
-        404: `Not Found`,
-      },
+        404: `Not Found`
+      }
     });
   }
 
@@ -168,8 +167,8 @@ export class UserControllerService {
       errors: {
         401: `Unauthorized`,
         403: `Forbidden`,
-        404: `Not Found`,
-      },
+        404: `Not Found`
+      }
     });
   }
 
@@ -190,8 +189,8 @@ export class UserControllerService {
       errors: {
         401: `Unauthorized`,
         403: `Forbidden`,
-        404: `Not Found`,
-      },
+        404: `Not Found`
+      }
     });
   }
 
@@ -201,17 +200,15 @@ export class UserControllerService {
    * @returns any Created
    * @throws ApiError
    */
-  public static userLogoutUsingPost(): CancelablePromise<
-    BaseResponse_boolean_ | any
-  > {
+  public static userLogoutUsingPost(): CancelablePromise<BaseResponse_boolean_ | any> {
     return __request(OpenAPI, {
       method: "POST",
       url: "/api/user/logout",
       errors: {
         401: `Unauthorized`,
         403: `Forbidden`,
-        404: `Not Found`,
-      },
+        404: `Not Found`
+      }
     });
   }
 
@@ -232,8 +229,8 @@ export class UserControllerService {
       errors: {
         401: `Unauthorized`,
         403: `Forbidden`,
-        404: `Not Found`,
-      },
+        404: `Not Found`
+      }
     });
   }
 
@@ -254,8 +251,8 @@ export class UserControllerService {
       errors: {
         401: `Unauthorized`,
         403: `Forbidden`,
-        404: `Not Found`,
-      },
+        404: `Not Found`
+      }
     });
   }
 
@@ -276,8 +273,8 @@ export class UserControllerService {
       errors: {
         401: `Unauthorized`,
         403: `Forbidden`,
-        404: `Not Found`,
-      },
+        404: `Not Found`
+      }
     });
   }
 }

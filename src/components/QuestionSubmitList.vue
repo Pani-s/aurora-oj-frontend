@@ -1,6 +1,6 @@
 <template>
   <div id="questionSubmitList">
-    <h2 style="color: #51416b">让我看看大家的提交</h2>
+    <h2 style="color: #51416b">让我们看看大家的提交</h2>
     <a-table
       :ref="tableRef"
       :columns="columns"
@@ -184,7 +184,7 @@ const getStatusColor = (statusEnum: string) => {
     return "orange";
   } else if (statusEnum === "WAITING") {
     return "lightblue";
-  } else if (statusEnum === "SUCCEED") {
+  } else if (statusEnum === "FINISHED") {
     return "green";
   } else if (statusEnum === "FAILED") {
     return "red";

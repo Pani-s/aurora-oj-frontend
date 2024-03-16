@@ -1,8 +1,7 @@
-/* eslint-disable */
 /* generated using openapi-typescript-codegen -- do no edit */
 /* istanbul ignore file */
 /* tslint:disable */
-
+/* eslint-disable */
 import type { BaseResponse_boolean_ } from "../models/BaseResponse_boolean_";
 import type { BaseResponse_long_ } from "../models/BaseResponse_long_";
 import type { BaseResponse_Page_Question_ } from "../models/BaseResponse_Page_Question_";
@@ -101,6 +100,29 @@ export class QuestionControllerService {
     return __request(OpenAPI, {
       method: "GET",
       url: "/api/question/get",
+      query: {
+        "id": id
+      },
+      errors: {
+        401: `Unauthorized`,
+        403: `Forbidden`,
+        404: `Not Found`
+      }
+    });
+  }
+
+  /**
+   * getQuestionAnswerById
+   * @param id id
+   * @returns BaseResponse_Question_ OK
+   * @throws ApiError
+   */
+  public static getQuestionAnswerByIdUsingGet(
+    id?: number
+  ): CancelablePromise<BaseResponse_Question_> {
+    return __request(OpenAPI, {
+      method: "GET",
+      url: "/api/question/get/answer",
       query: {
         "id": id
       },
