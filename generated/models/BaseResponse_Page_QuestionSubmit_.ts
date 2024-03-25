@@ -9,4 +9,3 @@ export type BaseResponse_Page_QuestionSubmit_ = {
   data?: Page_QuestionSubmit_;
   message?: string;
 };
-

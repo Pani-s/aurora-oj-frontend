@@ -18,9 +18,30 @@
             </div>
           </a>
         </a-menu-item>
-        <a-menu-item v-for="item in visibleRoutes" :key="item.path">
-          {{ item.name }}
-        </a-menu-item>
+        <template v-for="route in visibleRoutes" :key="route.path">
+          <template v-if="route.children">
+            <a-sub-menu>
+              <template #title>{{ route.name }}</template>
+              <template #icon><icon-settings /></template>
+              <!--              <span>{{ route.name }}</span>-->
+              <template v-for="child in route.children" :key="child.path">
+                <a-menu-item v-if="!child.meta.hideInMenu" :key="child.path">
+                  {{ child.name }}
+                  <!-- <router-link :to="child.path">{{ child.name }}</router-link>-->
+                </a-menu-item>
+              </template>
+            </a-sub-menu>
+          </template>
+          <template v-if="!route.children">
+            <a-menu-item :key="route.path">
+              {{ route.name }}
+            </a-menu-item>
+          </template>
+        </template>
+
+        <!--        <a-menu-item v-for="item in visibleRoutes" :key="item.path">-->
+        <!--          {{ item.name }}-->
+        <!--        </a-menu-item>-->
       </a-menu>
     </a-col>
     <a-col flex="100px">
@@ -30,7 +51,11 @@
             class="avatar"
             shape="circle"
             :style="{ backgroundColor: '#cac6ff' }"
-            >{{ store.state.user?.loginUser?.userName ?? "未登录" }}
+            >{{
+              store.state.user?.loginUser
+                ? store.state.user?.loginUser.userName ?? "未命名"
+                : "未登录"
+            }}
           </a-avatar>
           <template #content>
             <template
@@ -41,7 +66,7 @@
                   <icon-idcard />
                 </template>
                 <template #default>
-                  <a-anchor-link>个人信息</a-anchor-link>
+                  <a-anchor-link href="/my/info">个人信息</a-anchor-link>
                 </template>
               </a-doption>
               <a-doption>

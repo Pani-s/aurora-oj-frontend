@@ -17,4 +17,3 @@ export type Page_QuestionSubmit_ = {
   size?: number;
   total?: number;
 };
-

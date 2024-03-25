@@ -9,7 +9,11 @@ import AddQuestionView from "@/views/question/AddQuestionView.vue";
 import QuestionsView from "@/views/question/QuestionsView.vue";
 import ViewQuestionView from "@/views/question/ViewQuestionView.vue";
 import QuestionSubmitView from "@/views/question/QuestionSubmitView.vue";
-import TestView from "@/views/TestView.vue";
+import MyQuestionSubmitView from "@/views/question/MyQuestionSubmitView.vue";
+import BasicLayout from "@/layouts/BasicLayout.vue";
+import ManageUserView from "@/views/user/ManageUserView.vue";
+import UserInfoView from "@/views/user/UserInfoView.vue";
+import JudgeSettingView from "@/views/question/JudgeSettingView.vue";
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -60,31 +64,117 @@ export const routes: Array<RouteRecordRaw> = [
     },
   },
 
+  // {
+  //   path: "/my_question_submit",
+  //   name: "我的历史提交",
+  //   component: MyQuestionSubmitView,
+  //   meta: {
+  //     access: ACCESS_ENUM.USER,
+  //   },
+  // },
+
+  // {
+  //   path: "/add/question",
+  //   name: "创建题目",
+  //   component: AddQuestionView,
+  //   meta: {
+  //     access: ACCESS_ENUM.ADMIN,
+  //   },
+  // },
+  // {
+  //   path: "/update/question",
+  //   name: "更新题目",
+  //   component: AddQuestionView,
+  //   meta: {
+  //     access: ACCESS_ENUM.ADMIN,
+  //     hideInMenu: true,
+  //   },
+  // },
   {
-    path: "/add/question",
-    name: "创建题目",
-    component: AddQuestionView,
+    path: "/me",
+    name: "我的",
+    component: BasicLayout,
+    meta: {
+      access: ACCESS_ENUM.USER,
+    },
+    children: [
+      {
+        path: "/my/submit",
+        name: "我的历史提交",
+        component: MyQuestionSubmitView,
+        meta: {
+          access: ACCESS_ENUM.USER,
+        },
+      },
+      {
+        path: "/my/info",
+        name: "我的个人信息",
+        component: UserInfoView,
+        meta: {
+          access: ACCESS_ENUM.USER,
+        },
+      },
+    ],
+  },
+  {
+    path: "/manage",
+    name: "管理",
+    component: BasicLayout,
     meta: {
       access: ACCESS_ENUM.ADMIN,
     },
+    children: [
+      {
+        path: "/manage/question/",
+        name: "管理题目",
+        component: ManageQuestionView,
+        meta: {
+          access: ACCESS_ENUM.ADMIN,
+        },
+      },
+      {
+        path: "/update/question",
+        name: "更新题目",
+        component: AddQuestionView,
+        meta: {
+          access: ACCESS_ENUM.ADMIN,
+          hideInMenu: true,
+        },
+      },
+      {
+        path: "/add/question",
+        name: "创建题目",
+        component: AddQuestionView,
+        meta: {
+          access: ACCESS_ENUM.ADMIN,
+        },
+      },
+      {
+        path: "/manage/user",
+        name: "用户管理",
+        component: ManageUserView,
+        meta: {
+          access: ACCESS_ENUM.ADMIN,
+        },
+      },
+      {
+        path: "/manage/judge_settings",
+        name: "判题设置",
+        component: JudgeSettingView,
+        meta: {
+          access: ACCESS_ENUM.ADMIN,
+        },
+      },
+    ],
   },
-  {
-    path: "/update/question",
-    name: "更新题目",
-    component: AddQuestionView,
-    meta: {
-      access: ACCESS_ENUM.ADMIN,
-      hideInMenu: true,
-    },
-  },
-  {
-    path: "/manage/question/",
-    name: "管理题目",
-    component: ManageQuestionView,
-    meta: {
-      access: ACCESS_ENUM.ADMIN,
-    },
-  },
+  // {
+  //   path: "/manage/question/",
+  //   name: "管理题目",
+  //   component: ManageQuestionView,
+  //   meta: {
+  //     access: ACCESS_ENUM.ADMIN,
+  //   },
+  // },
 
   //test
   // {

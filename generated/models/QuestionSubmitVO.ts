@@ -17,4 +17,3 @@ export type QuestionSubmitVO = {
   userId?: number;
   userVO?: UserVO;
 };
-

@@ -218,13 +218,13 @@ const getStatusColor = (statusEnum: string) => {
     return "orange";
   } else if (statusEnum === "WAITING") {
     return "lightblue";
-  } else if (statusEnum === "FINISHED") {
+  } else if (statusEnum === "SUCCESS") {
     return "green";
   } else if (statusEnum === "FAILED") {
     return "red";
   }
   // 返回默认颜色或者其他逻辑
-  return "black";
+  return "brown";
 };
 </script>
 

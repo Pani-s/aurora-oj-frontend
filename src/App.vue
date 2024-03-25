@@ -31,3 +31,16 @@ onMounted(() => {
   doInit();
 });
 </script>
+<style>
+.arco-input-wrapper {
+  background-color: white;
+  border-radius: 4px;
+  border: 1px solid #c2c2c2;
+}
+
+.arco-textarea {
+  background-color: white;
+  border-radius: 4px;
+  border: 1px solid #c2c2c2;
+}
+</style>

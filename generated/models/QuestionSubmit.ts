@@ -14,4 +14,3 @@ export type QuestionSubmit = {
   updateTime?: string;
   userId?: number;
 };
-

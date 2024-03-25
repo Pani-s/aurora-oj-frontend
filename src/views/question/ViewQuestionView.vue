@@ -55,9 +55,9 @@
               placeholder="选择编程语言"
             >
               <a-option value="java">Java</a-option>
-              <a-option value="cpp">C++</a-option>
-              <a-option value="go">Golang</a-option>
-              <a-option value="html">HTML怎么会在这里</a-option>
+              <!--              <a-option value="cpp">C++</a-option>-->
+              <!--              <a-option value="go">Golang</a-option>-->
+              <!--              <a-option value="html">HTML怎么会在这里</a-option>-->
             </a-select>
           </a-form-item>
           <a-form-item field="theme" label="主题" style="min-width: 200px">

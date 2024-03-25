@@ -20,4 +20,3 @@ export type QuestionVO = {
   userId?: number;
   userVO?: UserVO;
 };
-
