@@ -30,6 +30,26 @@
       }"
       @page-change="onPageChange"
     >
+      <template #pass="{ record }">
+        <!--        {{ moment(record.createTime).format("YYYY-MM-DD") }}-->
+        <!--        我选择后端就返回格式化的字符串。-->
+        <template v-if="record.isPass === true">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="1.2em"
+            height="1.2em"
+            fill="currentColor"
+            color="green"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M20 12.005v-.828a1 1 0 112 0v.829a10 10 0 11-5.93-9.14 1 1 0 01-.814 1.826A8 8 0 1020 12.005zM8.593 10.852a1 1 0 011.414 0L12 12.844l8.293-8.3a1 1 0 011.415 1.413l-9 9.009a1 1 0 01-1.415 0l-2.7-2.7a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </template>
+      </template>
       <template #tags="{ record }">
         <a-space wrap>
           <a-tag v-for="(tag, index) of record.tags" :key="index" color="orange"
@@ -40,7 +60,9 @@
       <template #acceptedRate="{ record }">
         {{
           `${
-            record.submitNum ? record.acceptedNum / record.submitNum : "0"
+            record.submitNum
+              ? (record.acceptedNum / record.submitNum).toFixed(2)
+              : "0.00"
           }% (${record.acceptedNum}/${record.submitNum})`
         }}
       </template>
@@ -59,7 +81,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watchEffect } from "vue";
 import {
   Question,
   QuestionControllerService,
@@ -75,8 +97,8 @@ const total = ref(0);
 const searchParams = ref<QuestionQueryRequest>({
   title: "",
   tags: [],
-  pageSize: 5,
-  current: 1,
+  pageSize: 10,
+  current: 0,
 });
 
 const loadData = async () => {
@@ -92,12 +114,12 @@ const loadData = async () => {
   }
 };
 
-// /**
-//  * 监听 searchParams 变量，改变时触发页面的重新加载
-//  */
-// watchEffect(() => {
-//   loadData();
-// });
+/**
+ * 监听 searchParams 变量，改变时触发页面的重新加载
+ */
+watchEffect(() => {
+  loadData();
+});
 
 /**
  * 页面加载时，请求数据
@@ -109,10 +131,13 @@ onMounted(() => {
 // {id: "1", title: "A+ D", content: "新的题目内容", tags: "["二叉树"]", answer: "新的答案", submitNum: 0,…}
 
 const columns = [
-  // {
-  //   title: "题号",
-  //   dataIndex: "id",
-  // },
+  {
+    slotName: "pass",
+  },
+  {
+    title: "题号",
+    dataIndex: "id",
+  },
   {
     title: "题目名称",
     dataIndex: "title",
@@ -125,10 +150,10 @@ const columns = [
     title: "通过率",
     slotName: "acceptedRate",
   },
-  {
-    title: "创建时间",
-    slotName: "createTime",
-  },
+  // {
+  //   title: "创建时间",
+  //   slotName: "createTime",
+  // },
   {
     slotName: "optional",
   },

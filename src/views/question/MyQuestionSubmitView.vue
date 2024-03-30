@@ -39,10 +39,27 @@
       }"
       @page-change="onPageChange"
     >
-      <template #judgeInfo="{ record }">
-        <!--              {{ JSON.stringify(record.judgeInfo) }}-->
-        {{ record.judgeInfo }}
+      <template #judgeInfoMemory="{ record }">
+        <!--        整数除法-->
+        <template
+          v-if="record.judgeInfo.memory && record.judgeInfo.memory !== 0"
+        >
+          {{( (record.judgeInfo.memory / 1024) | 0 )}}kb
+        </template>
+        <template v-else> -</template>
+        <!--        {{ record.judgeInfo.memory && record.judgeInfo.memory !== 0 && (record.judgeInfo.memory / 1024 | 0) + "kb"}}-->
+        <!--        {{ !record.judgeInfo.memory && " - "}}-->
       </template>
+
+      <template #judgeInfoTime="{ record }">
+        <template v-if="record.judgeInfo.time && record.judgeInfo.time !== 0">
+          {{ record.judgeInfo.time }}ms
+        </template>
+        <template v-else> -</template>
+        <!--        {{ record.judgeInfo.time && record.judgeInfo.time !== 0 && record.judgeInfo.time + "ms"}}-->
+        <!--        {{ !record.judgeInfo.time && " - "}}-->
+      </template>
+
       <template #status="{ record }">
         <!--              {{ JSON.stringify(record.judgeInfo) }}-->
         <div
@@ -52,11 +69,31 @@
           {{ record.status }}
         </div>
       </template>
+
+      <template #optional="{ record }">
+        <a-space>
+          <a-button id="btn" @click="showAnswer(record.code)">
+            查看代码
+          </a-button>
+          <a-button
+            @click="retry(record.id)"
+            v-if="record.status === QuestionStateStrEnum.ERROR_STR"
+          >
+            Retry~
+          </a-button>
+        </a-space>
+      </template>
+
       <!--      <template #createTime="{ record }">-->
       <!--        {{ record.createTime }}-->
       <!--              {{ moment(record.createTime).format("YYYY-MM-DD") }}-->
       <!--      </template>-->
     </a-table>
+
+    <a-modal v-model:visible="visible" @ok="handleOk">
+      <template #title> 你的代码~ </template>
+      <a-textarea :model-value="ans" auto-size disabled></a-textarea>
+    </a-modal>
   </div>
 </template>
 
@@ -71,6 +108,7 @@ import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
 import { QuestionStateEnum } from "@/views/question/QuestionStateEnum";
 import { useStore } from "vuex";
+import { QuestionStateStrEnum } from "@/views/question/QuestionStateStrEnum";
 
 const tableRef = ref();
 const store = useStore();
@@ -82,6 +120,34 @@ const searchParams = ref<QuestionSubmitQueryRequest>({
   pageSize: 10,
   current: 1,
 });
+
+const visible = ref(false);
+const ans = ref<string>("");
+
+const showAnswer = (code: string) => {
+  visible.value = true;
+  ans.value = code;
+};
+const handleOk = () => {
+  visible.value = false;
+};
+
+const retry = async (id: string) => {
+  const para = {
+    id: id
+  };
+  try{
+    const res =
+      await QuestionControllerService.retryMyErrorSubmitUsingPost(para);
+    if (res.code === 0) {
+      message.success("重新提交成功！");
+    } else {
+      message.error("重试失败，请稍后再试：" + res.message);
+    }
+  }catch (e){
+    message.error("加载失败，请稍后再试：" + e);
+  }
+};
 
 const loadData = async () => {
   const res =
@@ -124,12 +190,12 @@ const columns = [
     title: "提交号",
     dataIndex: "id",
     ellipsis: true,
-    width: 120,
+    width: 100,
   },
   {
     title: "编程语言",
     dataIndex: "language",
-    width: 150,
+    width: 100,
   },
   {
     title: "判题信息",
@@ -138,36 +204,45 @@ const columns = [
       {
         title: "执行信息",
         dataIndex: "judgeInfo.message",
-        width: 220,
+        ellipsis: true,
+        tooltip: true,
+        width: 140,
       },
       {
         title: "执行内存",
         dataIndex: "judgeInfo.memory",
-        width: 100,
+        slotName: "judgeInfoMemory",
+        width: 80,
       },
       {
         title: "执行时间",
         dataIndex: "judgeInfo.time",
-        width: 100,
+        slotName: "judgeInfoTime",
+        width: 80,
       },
     ],
-    width: 400,
+    width: 300,
   },
   {
     title: "判题状态",
     dataIndex: "status",
     slotName: "status",
-    width: 150,
+    width: 80,
   },
   {
-    title: "题目 id",
+    title: "题号",
     dataIndex: "questionId",
-    width: 120,
+    width: 100,
   },
   {
     title: "提交时间",
     // slotName: "createTime",
-    dataIndex: "createTime",
+    dataIndex: "updateTime",
+    width: 160,
+  },
+  {
+    slotName: "optional",
+    width: 180,
   },
 ];
 
@@ -192,17 +267,19 @@ const doSubmit = () => {
 };
 
 const getStatusColor = (statusEnum: string) => {
-  if (statusEnum === "RUNNING") {
+  if (statusEnum === QuestionStateStrEnum.RUNNING_STR) {
     return "orange";
-  } else if (statusEnum === "WAITING") {
+  } else if (statusEnum === QuestionStateStrEnum.WAITING_STR) {
     return "lightblue";
-  } else if (statusEnum === "SUCCESS") {
+  } else if (statusEnum === QuestionStateStrEnum.SUCCESS_STR) {
     return "green";
-  } else if (statusEnum === "FAILED") {
+  } else if (statusEnum === QuestionStateStrEnum.FAILED_STR) {
     return "red";
+  } else if (statusEnum === QuestionStateStrEnum.ERROR_STR) {
+    return "brown";
   }
   // 返回默认颜色或者其他逻辑
-  return "black";
+  return "brown";
 };
 </script>
 
@@ -210,7 +287,7 @@ const getStatusColor = (statusEnum: string) => {
 #myQuestionSubmitView {
   max-width: 1280px;
   /*margin: 0 auto;*/
-  padding-left: 11%;
-  padding-right: 11%;
+  padding-left: 8%;
+  padding-right: 8%;
 }
 </style>

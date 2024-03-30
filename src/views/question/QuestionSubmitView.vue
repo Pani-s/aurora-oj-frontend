@@ -39,10 +39,30 @@
       }"
       @page-change="onPageChange"
     >
-      <template #judgeInfo="{ record }">
-        <!--              {{ JSON.stringify(record.judgeInfo) }}-->
-        {{ record.judgeInfo }}
+      <!--      <template #judgeInfo="{ record }">-->
+      <!--        {{ record.judgeInfo }}-->
+      <!--      </template>-->
+      <template #judgeInfoMemory="{ record }">
+        <!--        整数除法-->
+        <template
+          v-if="record.judgeInfo.memory && record.judgeInfo.memory !== 0"
+        >
+          {{(record.judgeInfo.memory / 1024 | 0)}}kb
+        </template>
+        <template v-else> -</template>
+        <!--        {{ record.judgeInfo.memory && record.judgeInfo.memory !== 0 && (record.judgeInfo.memory / 1024 | 0) + "kb"}}-->
+        <!--        {{ !record.judgeInfo.memory && " - "}}-->
       </template>
+
+      <template #judgeInfoTime="{ record }">
+        <template v-if="record.judgeInfo.time && record.judgeInfo.time !== 0">
+          {{ record.judgeInfo.time }}ms
+        </template>
+        <template v-else> -</template>
+        <!--        {{ record.judgeInfo.time && record.judgeInfo.time !== 0 && record.judgeInfo.time + "ms"}}-->
+        <!--        {{ !record.judgeInfo.time && " - "}}-->
+      </template>
+
       <template #status="{ record }">
         <!--              {{ JSON.stringify(record.judgeInfo) }}-->
         <div
@@ -70,6 +90,7 @@ import {
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
 import { QuestionStateEnum } from "@/views/question/QuestionStateEnum";
+import { QuestionStateStrEnum } from "@/views/question/QuestionStateStrEnum";
 
 const tableRef = ref();
 
@@ -161,11 +182,13 @@ const columns = [
         title: "执行内存",
         dataIndex: "judgeInfo.memory",
         width: 100,
+        slotName: "judgeInfoMemory",
       },
       {
         title: "执行时间",
         dataIndex: "judgeInfo.time",
         width: 100,
+        slotName: "judgeInfoTime",
       },
     ],
     width: 340,
@@ -177,7 +200,7 @@ const columns = [
     width: 120,
   },
   {
-    title: "题目 id",
+    title: "题号",
     dataIndex: "questionId",
     width: 120,
   },
@@ -214,14 +237,16 @@ const doSubmit = () => {
 };
 
 const getStatusColor = (statusEnum: string) => {
-  if (statusEnum === "RUNNING") {
+  if (statusEnum === QuestionStateStrEnum.RUNNING_STR) {
     return "orange";
-  } else if (statusEnum === "WAITING") {
+  } else if (statusEnum === QuestionStateStrEnum.WAITING_STR) {
     return "lightblue";
-  } else if (statusEnum === "SUCCESS") {
+  } else if (statusEnum === QuestionStateStrEnum.SUCCESS_STR) {
     return "green";
-  } else if (statusEnum === "FAILED") {
+  } else if (statusEnum === QuestionStateStrEnum.FAILED_STR) {
     return "red";
+  } else if (statusEnum === QuestionStateStrEnum.ERROR_STR) {
+    return "brown";
   }
   // 返回默认颜色或者其他逻辑
   return "brown";

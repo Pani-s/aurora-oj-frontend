@@ -27,22 +27,22 @@
                 ref="typeFormRef"
                 label-align="left"
                 @submit="doSubmit"
-                :model="type"
+                :model="form"
               >
                 <a-form-item field="type">
-                <a-radio-group direction="vertical" v-model="type.type">
-                  <a-radio value="example">本地Java代码沙箱</a-radio>
-                  <a-radio value="remote">远程代码沙箱</a-radio>
-                  <a-radio value="ai">AI辅助判题</a-radio>
-                  <a-radio value="thirdParty">第三方沙箱</a-radio>
-                </a-radio-group>
+                  <a-radio-group direction="vertical"  v-model="form.type">
+                    <a-radio value="example">本地Java代码沙箱</a-radio>
+                    <a-radio value="remote">远程代码沙箱</a-radio>
+                    <a-radio value="ai">AI辅助判题</a-radio>
+                    <a-radio value="thirdParty">第三方沙箱</a-radio>
+                  </a-radio-group>
                 </a-form-item>
                 <a-button
                   id="btn"
                   html-type="submit"
                   type="primary"
                   style="max-width: 150px; align-self: center"
-                >修改类型
+                  >修改类型
                 </a-button>
                 <!--                @click="typeFormRef.validate()"-->
               </a-form>
@@ -56,32 +56,51 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { JudgeControllerService } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 
-
 const typeFormRef = ref(null);
-//todo: get type
-let type = ref({ type: "" });
+// let type = ref({ type: "" });
+let form = ref({
+  type:" ",
+});
+
+const getType = async () => {
+  try {
+    const res = await JudgeControllerService.getCodeSandboxTypeUsingGet();
+    if (res.code === 0) {
+      form.value.type = res.data;
+      // console.log(form.value.type);
+    } else {
+      message.error("获取代码沙箱类型失败！！" + res.message);
+    }
+  } catch (e) {
+    message.error("获取代码沙箱类型失败:" + e);
+  }
+};
+
+onMounted(() => {
+  getType();
+});
+
 const doSubmit = async (values: any) => {
-  console.log(type.value.type);
-  const s = type.value.type;
-  if(s == ""){
+  // console.log(form.value.type);
+  const s = form.value.type;
+  if (s == "") {
     return;
   }
-  try{
+  try {
     const res = await JudgeControllerService.setCodeSandboxTypeUsingPost(s);
-    if(res.code === 0){
+    if (res.code === 0) {
       message.success("修改成功！");
-    }else{
+    } else {
       message.error("修改失败！" + res.message);
     }
-  }catch (e) {
+  } catch (e) {
     message.error("修改失败:" + e);
     console.log("修改失败:" + e);
   }
-
 };
 </script>
 

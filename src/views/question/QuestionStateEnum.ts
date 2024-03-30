@@ -4,5 +4,4 @@ export enum QuestionStateEnum {
   SUCCESS = 2,
   FAILED = 3,
   ERROR = 6,
-  // ...可以添加更多状态
 }
