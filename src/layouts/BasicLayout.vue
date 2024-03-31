@@ -9,7 +9,7 @@
       </a-layout-content>
       <a-layout-footer class="footer">
         <a
-          href="https://www.kookv.love"
+          href="https://github.com/Pani-s"
           target="_blank"
           style="text-decoration-line: none; color: #51416b"
         >

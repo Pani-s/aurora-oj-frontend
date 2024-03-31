@@ -7,6 +7,7 @@ export { CancelablePromise, CancelError } from "./core/CancelablePromise";
 export { OpenAPI } from "./core/OpenAPI";
 export type { OpenAPIConfig } from "./core/OpenAPI";
 
+export type { BaseResponse_List_Rank_ } from "./models/BaseResponse_List_Rank_";
 export type { BaseResponse_string_ } from "./models/BaseResponse_string_";
 export type { BaseResponse_boolean_ } from "./models/BaseResponse_boolean_";
 export type { BaseResponse_LoginUserVO_ } from "./models/BaseResponse_LoginUserVO_";
@@ -54,6 +55,7 @@ export type { QuestionSubmitQueryRequest } from "./models/QuestionSubmitQueryReq
 export type { QuestionSubmitVO } from "./models/QuestionSubmitVO";
 export type { QuestionUpdateRequest } from "./models/QuestionUpdateRequest";
 export type { QuestionVO } from "./models/QuestionVO";
+export type { Rank } from "./models/Rank";
 
 export { QuestionControllerService } from "./services/QuestionControllerService";
 export { JudgeControllerService } from "./services/JudgeControllerService";

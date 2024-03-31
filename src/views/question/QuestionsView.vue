@@ -1,5 +1,9 @@
 <template>
   <div id="questionsView">
+    <div class="rank">
+      <rank-component />
+    </div>
+    <a-divider />
     <a-form :model="searchParams" layout="inline">
       <a-form-item field="title" label="名称" style="min-width: 240px">
         <a-input v-model="searchParams.title" placeholder="请输入名称" />
@@ -89,6 +93,7 @@ import {
 } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import { useRouter } from "vue-router";
+import RankComponent from "@/components/RankComponent.vue";
 
 const tableRef = ref();
 
@@ -207,5 +212,22 @@ const doSubmit = () => {
 #btn:hover {
   background-color: #9685cc;
   transition: 0.5s;
+}
+.rank{
+  padding-top: 30px;
+  padding-bottom: 10px;
+  border-radius: 10px;
+
+  background-image: url("http://pics.soogyu.xyz/pani/oj/240331-ballll.webp");
+  /* 背景图垂直、水平均居中 */
+  background-position: center center;
+  /* 背景图不平铺 */
+  background-repeat: no-repeat;
+  /* 当内容高度大于图片高度时，背景图像的位置相对于viewport固定 */
+  /*background-attachment: fixed;*/
+  /* 让背景图基于容器大小伸缩 */
+  background-size: 100% 190%;
+  /* 设置背景颜色，背景图加载过程中会显示背景色 */
+  background-color: white;
 }
 </style>

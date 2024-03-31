@@ -1,5 +1,4 @@
 import { RouteRecordRaw } from "vue-router";
-import UserLayout from "@/layouts/UserLayout.vue";
 import UserLoginView from "@/views/user/UserLoginView.vue";
 import UserRegisterView from "@/views/user/UserRegisterView.vue";
 import NoAuthView from "@/views/NoAuthView.vue";
@@ -14,6 +13,7 @@ import BasicLayout from "@/layouts/BasicLayout.vue";
 import ManageUserView from "@/views/user/ManageUserView.vue";
 import UserInfoView from "@/views/user/UserInfoView.vue";
 import JudgeSettingView from "@/views/question/JudgeSettingView.vue";
+import UserLayout from "@/layouts/UserLayout.vue";
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -36,6 +36,7 @@ export const routes: Array<RouteRecordRaw> = [
       hideInMenu: true,
     },
   },
+
   {
     path: "/",
     name: "主页",

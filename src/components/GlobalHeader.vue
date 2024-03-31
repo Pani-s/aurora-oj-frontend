@@ -22,7 +22,9 @@
           <template v-if="route.children">
             <a-sub-menu>
               <template #title>{{ route.name }}</template>
-              <template #icon><icon-settings /></template>
+              <template #icon>
+                <icon-settings />
+              </template>
               <!--              <span>{{ route.name }}</span>-->
               <template v-for="child in route.children" :key="child.path">
                 <a-menu-item v-if="!child.meta.hideInMenu" :key="child.path">
@@ -51,11 +53,20 @@
             class="avatar"
             shape="circle"
             :style="{ backgroundColor: '#cac6ff' }"
-            >{{
-              store.state.user?.loginUser
-                ? store.state.user?.loginUser.userName ?? "未命名"
-                : "未登录"
-            }}
+            :image-url="store.state.user.loginUser.userAvatar ?? userImg"
+          >
+            <!--            ResizeObserver loop completed with undelivered notifications而且网上解决方法没效果-->
+            <!--            **********-->
+            <!--            <template v-if="store.state.user.loginUser.userAvatar">-->
+            <!--              <img :src="store.state.user.loginUser.userAvatar" alt="avatar">-->
+            <!--            </template>-->
+            <!--            <template v-else>-->
+            <!--              {{-->
+            <!--                store.state.user?.loginUser-->
+            <!--                  ? store.state.user?.loginUser.userName ?? "未命名"-->
+            <!--                  : "未登录"-->
+            <!--              }}-->
+            <!--            </template>-->
           </a-avatar>
           <template #content>
             <template
@@ -106,7 +117,8 @@ import { useStore } from "vuex";
 import checkAccess from "@/access/checkAccess";
 import ACCESS_ENUM from "@/access/accessEnum";
 import { UserControllerService } from "../../generated";
-
+const userImg =
+  "https://k.sinaimg.cn/n/sinakd10116/300/w1000h900/20200512/51c6-itmiwrz3680406.jpg/w700d1q75cms.jpg";
 const router = useRouter();
 const store = useStore();
 // 展示在菜单的路由数组

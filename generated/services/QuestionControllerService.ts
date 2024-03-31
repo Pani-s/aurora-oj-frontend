@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { BaseResponse_boolean_ } from '../models/BaseResponse_boolean_';
+import type { BaseResponse_List_Rank_ } from '../models/BaseResponse_List_Rank_';
 import type { BaseResponse_long_ } from '../models/BaseResponse_long_';
 import type { BaseResponse_Page_Question_ } from '../models/BaseResponse_Page_Question_';
 import type { BaseResponse_Page_QuestionSubmit_ } from '../models/BaseResponse_Page_QuestionSubmit_';
@@ -206,6 +207,22 @@ export class QuestionControllerService {
             method: 'POST',
             url: '/api/question/my/list/page/vo',
             body: questionQueryRequest,
+            errors: {
+                401: `Unauthorized`,
+                403: `Forbidden`,
+                404: `Not Found`,
+            },
+        });
+    }
+    /**
+     * getDailyRankNewPass
+     * @returns BaseResponse_List_Rank_ OK
+     * @throws ApiError
+     */
+    public static getDailyRankNewPassUsingGet(): CancelablePromise<BaseResponse_List_Rank_> {
+        return __request(OpenAPI, {
+            method: 'GET',
+            url: '/api/question/rank/daily/new',
             errors: {
                 401: `Unauthorized`,
                 403: `Forbidden`,

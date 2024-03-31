@@ -30,11 +30,11 @@
                 :model="form"
               >
                 <a-form-item field="type">
-                  <a-radio-group direction="vertical"  v-model="form.type">
+                  <a-radio-group direction="vertical" v-model="form.type">
                     <a-radio value="example">本地Java代码沙箱</a-radio>
                     <a-radio value="remote">远程代码沙箱</a-radio>
                     <a-radio value="ai">AI辅助判题</a-radio>
-                    <a-radio value="thirdParty">第三方沙箱</a-radio>
+                    <a-radio value="thirdParty">第三方沙箱（待开发）</a-radio>
                   </a-radio-group>
                 </a-form-item>
                 <a-button
@@ -63,7 +63,7 @@ import message from "@arco-design/web-vue/es/message";
 const typeFormRef = ref(null);
 // let type = ref({ type: "" });
 let form = ref({
-  type:" ",
+  type: " ",
 });
 
 const getType = async () => {
@@ -113,7 +113,7 @@ const doSubmit = async (values: any) => {
 #container-a {
   box-shadow: #d5d5d5 1px 5px 5px;
   z-index: 10;
-  background-color: white;
   border-radius: 10px;
+  background-color: white;
 }
 </style>

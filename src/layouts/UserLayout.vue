@@ -3,15 +3,17 @@
     <a-layout style="min-height: 100vh">
       <a-layout-header class="header">
         <a-space>
-          <a href="/">
+          <a href="/" title="Aurora OJ">
             <img src="../assets/oj-logo.svg" class="logo" />
-            <img src="../assets/title-1.png" class="title-img" />
+            <img src="../assets/title-2.png" class="title-img" />
             <!--          <div>Aurora OJ</div>-->
           </a>
         </a-space>
       </a-layout-header>
       <a-layout-content class="content">
-        <router-view />
+        <div class="glass">
+          <router-view />
+        </div>
       </a-layout-content>
       <a-layout-footer class="footer">
         <a
@@ -31,7 +33,7 @@
   text-align: center;
   /*background: url("https://gw.alipayobjects.com/zos/rmsportal/FfdJeJRQWjEeGTpqgBKj.png")*/
   /*0% 0% / 100% 100%;*/
-  background: url("@/assets/cool-background.svg") center center / cover
+  background: url("http://pics.soogyu.xyz/pani/oj/ava/2024033111.webp") center center / cover
     no-repeat;
 }
 
@@ -45,6 +47,9 @@
 }
 
 #userLayout .content {
+  justify-content: center;
+  display: flex;
+  /*align-items: center;*/
   margin-bottom: 16px;
   padding: 20px;
 }
@@ -61,6 +66,23 @@
 #userLayout .title-img {
   height: 50px;
   margin-top: 10px;
+}
+
+.glass{
+  width: 700px;
+  height: 375px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /*gap: 20px;*/
+  border-radius: 40px;
+  backdrop-filter: blur(5px);
+  background-color: rgba(200, 197, 222, 0.13);
+  box-shadow: rgba(0, 0, 0, 0.3) 2px 8px 8px;
+  border: 0px rgba(255,255,255,0.2) solid;
+  border-bottom: 0px rgba(40,40,40,0.25) solid;
+  border-right: 0px rgba(40,40,40,0.25) solid;
 }
 </style>
 <script></script>

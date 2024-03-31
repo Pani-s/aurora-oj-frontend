@@ -214,15 +214,15 @@ const pwdRules: Record<string, FieldRule | FieldRule[]> = {
     {
       required: true,
       message: "旧密码不能为空",
-      minLength: 3,
+      minLength: 6,
       maxLength: 20,
     },
   ],
   newPassword: [
     {
       required: true,
-      message: "新密码不能为空，长度3-20",
-      minLength: 3,
+      message: "新密码不能为空，长度6-20",
+      minLength: 6,
       maxLength: 20,
     },
   ],
@@ -230,7 +230,7 @@ const pwdRules: Record<string, FieldRule | FieldRule[]> = {
     {
       required: true,
       message: "确认新密码不能为空",
-      minLength: 3,
+      minLength: 6,
       maxLength: 20,
     },
   ],
