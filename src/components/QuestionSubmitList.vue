@@ -1,6 +1,14 @@
 <template>
   <div id="questionSubmitList">
-    <h2 style="color: #51416b">让我们看看大家的提交</h2>
+    <a-button
+      shape="round"
+      style="float: right"
+      type="outlined"
+      @click="loadData"
+    >
+      <icon-refresh/>
+    </a-button>
+    <h2 style="color: #51416b; font-family: 幼圆, sans-serif">我的历史提交</h2>
     <a-table
       :ref="tableRef"
       :columns="columns"
@@ -26,11 +34,31 @@
           {{ record.status }}
         </div>
       </template>
+      <template #optional="{ record }">
+        <a-space>
+          <a-button
+            style="max-width: 50px; font-size: smaller"
+            @click="showAnswer(record)"
+          >
+            查看
+          </a-button>
+        </a-space>
+      </template>
+
       <!--      <template #createTime="{ record }">-->
       <!--        {{ record.createTime }}-->
       <!--              {{ moment(record.createTime).format("YYYY-MM-DD") }}-->
       <!--      </template>-->
     </a-table>
+
+    <a-modal v-model:visible="visible" @ok="handleOk" style="min-width: 50%">
+      <template #title> 提交结果</template>
+      <h3>详细信息</h3>
+      <MdViewer :value="detail || ''" />
+      <a-divider />
+      <h3>你的代码~</h3>
+      <a-textarea :model-value="ans" auto-size readonly></a-textarea>
+    </a-modal>
   </div>
 </template>
 
@@ -42,7 +70,21 @@ import {
   QuestionSubmitQueryRequest,
 } from "../../generated";
 import message from "@arco-design/web-vue/es/message";
-import { QuestionStateEnum } from "@/views/question/QuestionStateEnum";
+import { QuestionStateEnum } from "@/views/questionsubmit/QuestionStateEnum";
+import { QuestionStateStrEnum } from "@/views/questionsubmit/QuestionStateStrEnum";
+
+const visible = ref(false);
+const ans = ref<string>("");
+const detail = ref<string>("");
+
+const showAnswer = (record) => {
+  visible.value = true;
+  ans.value = record.code;
+  detail.value = record.judgeInfo.details;
+};
+const handleOk = () => {
+  visible.value = false;
+};
 
 /**
  * 定义组件属性类型
@@ -72,13 +114,12 @@ const searchParams = ref<QuestionSubmitQueryRequest>({
 });
 
 const loadData = async () => {
-  const res = await QuestionControllerService.listSubmitQuestionByPageUsingPost(
-    {
+  const res =
+    await QuestionControllerService.listMySubmitQuestionByPageUsingPost({
       ...searchParams.value,
       sortField: "createTime",
       sortOrder: "descend",
-    }
-  );
+    });
   if (res.code === 0) {
     dataList.value = res?.data?.records;
     dataList.value.forEach((item: QuestionSubmit) => {
@@ -121,15 +162,9 @@ onMounted(() => {
 
 const columns = [
   {
-    title: "提交号",
-    dataIndex: "id",
-    ellipsis: true,
-    width: 80,
-  },
-  {
     title: "编程语言",
     dataIndex: "language",
-    width: 80,
+    width: 60,
   },
   {
     title: "判题信息",
@@ -138,36 +173,42 @@ const columns = [
       {
         title: "执行信息",
         dataIndex: "judgeInfo.message",
-        width: 100,
+        width: 60,
+      },
+      {
+        title: "详细信息",
+        dataIndex: "judgeInfo.details",
+        ellipsis: true,
+        tooltip: true,
+        width: 50,
       },
       {
         title: "执行内存",
         dataIndex: "judgeInfo.memory",
-        width: 60,
+        width: 50,
       },
       {
         title: "执行时间",
         dataIndex: "judgeInfo.time",
-        width: 60,
+        width: 50,
       },
     ],
-    width: 220,
+    width: 210,
   },
   {
     title: "判题状态",
     dataIndex: "status",
     slotName: "status",
-    width: 110,
-  },
-  {
-    title: "提交者 id",
-    dataIndex: "userId",
     width: 80,
   },
   {
-    title: "时间",
+    title: "提交时间",
     dataIndex: "updateTime",
     width: 100,
+  },
+  {
+    slotName: "optional",
+    width: 50,
   },
 ];
 
@@ -180,17 +221,19 @@ const onPageChange = (page: number) => {
 };
 
 const getStatusColor = (statusEnum: string) => {
-  if (statusEnum === "RUNNING") {
+  if (statusEnum === QuestionStateStrEnum.RUNNING_STR) {
     return "orange";
-  } else if (statusEnum === "WAITING") {
+  } else if (statusEnum === QuestionStateStrEnum.WAITING_STR) {
     return "lightblue";
-  } else if (statusEnum === "FINISHED") {
+  } else if (statusEnum === QuestionStateStrEnum.SUCCESS_STR) {
     return "green";
-  } else if (statusEnum === "FAILED") {
+  } else if (statusEnum === QuestionStateStrEnum.FAILED_STR) {
     return "red";
+  } else if (statusEnum === QuestionStateStrEnum.ERROR_STR) {
+    return "brown";
   }
   // 返回默认颜色或者其他逻辑
-  return "black";
+  return "brown";
 };
 </script>
 

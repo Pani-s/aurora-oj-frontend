@@ -49,7 +49,7 @@
   font-size: 14px;
   font-stretch: condensed;
   text-align: center;
-  padding: 15px;
+  padding: 10px;
 }
 
 /*#basicLayout .footer {*/

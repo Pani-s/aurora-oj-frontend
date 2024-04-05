@@ -46,7 +46,7 @@
           <div class="name-score">
             <span class="name">{{ rank3?.userName ?? "虚位以待" }}</span
             ><br />
-            <span class="score">昨日通过数: {{ rank3?.count }}</span>
+            <span class="score">近三日通过数: {{ rank3?.count }}</span>
           </div>
         </a-col>
         <!-- 第一名 -->
@@ -64,7 +64,7 @@
             <div class="name-score">
               <span class="name">{{ rank1?.userName }}</span
               ><br />
-              <span class="score">昨日通过数: {{ rank1?.count }}</span>
+              <span class="score">近三日通过数: {{ rank1?.count }}</span>
             </div>
           </div>
         </a-col>
@@ -79,7 +79,7 @@
           <div class="name-score">
             <span class="name">{{ rank2?.userName ?? "虚位以待" }}</span
             ><br />
-            <span class="score">昨日通过数: {{ rank2?.count }}</span>
+            <span class="score">近三日通过数: {{ rank2?.count }}</span>
           </div>
         </a-col>
       </a-row>

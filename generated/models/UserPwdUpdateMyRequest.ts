@@ -3,8 +3,8 @@
 /* tslint:disable */
 /* eslint-disable */
 export type UserPwdUpdateMyRequest = {
-  checkedNewPassword?: string;
-  newPassword?: string;
-  userPassword?: string;
+    checkedNewPassword?: string;
+    newPassword?: string;
+    userPassword?: string;
 };
 

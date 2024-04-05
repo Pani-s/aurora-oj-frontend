@@ -2,7 +2,7 @@
   <div
     id="code-editor"
     ref="codeEditorRef"
-    style="min-height: 400px; height: 60vh"
+    style="height: 50vh"
   />
   <!--  <a-button @click="fillValue">填充值</a-button>-->
 </template>
@@ -52,7 +52,7 @@ onMounted(() => {
     readOnly: false,
     theme: "vs-light",
     lineNumbers: "on",
-    fontSize: 20,
+    fontSize: 16,
     //字体暂时没有找到更改的方法
     // roundedSelection: false,
     // scrollBeyondLastLine: false,

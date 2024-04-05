@@ -142,13 +142,6 @@ const selectedKeys = ref(["/"]);
 router.afterEach((to, from, failure) => {
   selectedKeys.value = [to.path];
 });
-
-// setTimeout(() => {
-//   store.dispatch("user/getLoginUser", {
-//     userName: "鱼皮管理员",
-//     userRole: ACCESS_ENUM.ADMIN,
-//   });
-// }, 3000);
 const logout = () => {
   UserControllerService.userLogoutUsingPost();
   location.reload();

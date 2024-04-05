@@ -1,7 +1,17 @@
 <template>
   <div id="answerPanel">
-    <!--    搞了半天原来是组件放到template外面了-->
-    <MdViewer :value="question.answer" />
+    <a-scrollbar>
+      <a-button
+        shape="round"
+        style="float: right"
+        type="outlined"
+        @click="loadData"
+      >
+        <icon-refresh/>
+      </a-button>
+      <!--    搞了半天原来是组件放到template外面了-->
+      <MdViewer :value="question.answer" />
+    </a-scrollbar>
   </div>
 </template>
 <!--:value="question.answer || '该题目还未尝试过，不能查看答案！'"-->

@@ -136,7 +136,6 @@ const columns = [
   {
     title: "操作",
     slotName: "optional",
-    width: 170,
   },
 ];
 

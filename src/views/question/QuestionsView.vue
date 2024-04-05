@@ -13,6 +13,7 @@
       </a-form-item>
       <a-form-item>
         <a-button
+          class="searchButton"
           type="outline"
           @click="doSubmit"
           shape="round"
@@ -229,5 +230,9 @@ const doSubmit = () => {
   background-size: 100% 190%;
   /* 设置背景颜色，背景图加载过程中会显示背景色 */
   background-color: white;
+}
+.searchButton{
+  color: #9685cc;
+  border-color: #9685cc
 }
 </style>

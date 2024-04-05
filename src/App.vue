@@ -3,6 +3,9 @@
     <template v-if="route.path.startsWith('/user')">
       <router-view />
     </template>
+    <template v-else-if="route.path.startsWith('/view/question')">
+      <question-layout/>
+    </template>
     <template v-else>
       <basic-layout />
     </template>
@@ -12,7 +15,7 @@
 import BasicLayout from "@/layouts/BasicLayout";
 import { onMounted } from "vue";
 import { useRoute } from "vue-router";
-import UserLayout from "@/layouts/UserLayout.vue";
+import QuestionLayout from "@/layouts/QuestionLayout.vue";
 
 const route = useRoute();
 
@@ -42,7 +45,7 @@ const debounce = (callback: (...args: any[]) => void, delay: number) => {
 const _ = (window as any).ResizeObserver;
 (window as any). ResizeObserver = class ResizeObserver extends _ {
   constructor(callback: (...args: any[]) => void) {
-    callback = debounce (callback, 20);
+    callback = debounce (callback, 50);
     super(callback);
   }
 };

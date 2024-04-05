@@ -32,8 +32,8 @@
                 <a-form-item field="type">
                   <a-radio-group direction="vertical" v-model="form.type">
                     <a-radio value="example">本地Java代码沙箱</a-radio>
-                    <a-radio value="remote">远程代码沙箱</a-radio>
-                    <a-radio value="ai">AI辅助判题</a-radio>
+                    <a-radio value="remote">远程代码沙箱（默认，推荐）</a-radio>
+                    <a-radio value="ai">AI辅助判题（结果不稳定）</a-radio>
                     <a-radio value="thirdParty">第三方沙箱（待开发）</a-radio>
                   </a-radio-group>
                 </a-form-item>

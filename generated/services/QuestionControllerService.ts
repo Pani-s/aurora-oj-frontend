@@ -10,9 +10,11 @@ import type { BaseResponse_Page_QuestionSubmit_ } from '../models/BaseResponse_P
 import type { BaseResponse_Page_QuestionSubmitVO_ } from '../models/BaseResponse_Page_QuestionSubmitVO_';
 import type { BaseResponse_Page_QuestionVO_ } from '../models/BaseResponse_Page_QuestionVO_';
 import type { BaseResponse_Question_ } from '../models/BaseResponse_Question_';
+import type { BaseResponse_QuestionDebugResponse_ } from '../models/BaseResponse_QuestionDebugResponse_';
 import type { BaseResponse_QuestionVO_ } from '../models/BaseResponse_QuestionVO_';
 import type { DeleteRequest } from '../models/DeleteRequest';
 import type { QuestionAddRequest } from '../models/QuestionAddRequest';
+import type { QuestionDebugRequest } from '../models/QuestionDebugRequest';
 import type { QuestionEditRequest } from '../models/QuestionEditRequest';
 import type { QuestionQueryRequest } from '../models/QuestionQueryRequest';
 import type { QuestionSubmitAddRequest } from '../models/QuestionSubmitAddRequest';
@@ -223,6 +225,27 @@ export class QuestionControllerService {
         return __request(OpenAPI, {
             method: 'GET',
             url: '/api/question/rank/daily/new',
+            errors: {
+                401: `Unauthorized`,
+                403: `Forbidden`,
+                404: `Not Found`,
+            },
+        });
+    }
+    /**
+     * doQuestionSubmitDebug
+     * @param questionDebugRequest questionDebugRequest
+     * @returns BaseResponse_QuestionDebugResponse_ OK
+     * @returns any Created
+     * @throws ApiError
+     */
+    public static doQuestionSubmitDebugUsingPost(
+        questionDebugRequest: QuestionDebugRequest,
+    ): CancelablePromise<BaseResponse_QuestionDebugResponse_ | any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/api/question/submit/debug',
+            body: questionDebugRequest,
             errors: {
                 401: `Unauthorized`,
                 403: `Forbidden`,

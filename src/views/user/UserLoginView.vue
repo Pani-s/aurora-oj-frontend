@@ -69,7 +69,8 @@ const handleSubmit = async () => {
       // 登录成功，跳转到主页
       if (res.code === 0) {
         await store.dispatch("user/getLoginUser");
-        router.push({
+        message.success("登陆成功");
+        await router.push({
           path: "/",
           replace: true
         });

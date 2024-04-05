@@ -1,6 +1,6 @@
 <template>
   <div id="addQuestionView">
-    <h1 style="font-family: 幼圆; color: #51416b">题目信息</h1>
+    <h1 style="font-family: 幼圆,sans-serif; color: #51416b">题目信息</h1>
     <a-form
       ref="formRef"
       :model="form"
@@ -56,15 +56,15 @@
               size="large"
             />
           </a-form-item>
-          <a-form-item field="judgeConfig.stackLimit" label="堆栈限制">
-            <a-input-number
-              v-model="form.judgeConfig.stackLimit"
-              placeholder="请输入堆栈限制"
-              mode="button"
-              :min="0"
-              size="large"
-            />
-          </a-form-item>
+<!--          <a-form-item field="judgeConfig.stackLimit" label="堆栈限制">-->
+<!--            <a-input-number-->
+<!--              v-model="form.judgeConfig.stackLimit"-->
+<!--              placeholder="请输入堆栈限制"-->
+<!--              mode="button"-->
+<!--              :min="0"-->
+<!--              size="large"-->
+<!--            />-->
+<!--          </a-form-item>-->
         </a-space>
       </a-form-item>
       <a-form-item
@@ -84,9 +84,9 @@
               :label="`输入用例-${index}`"
               :key="index"
             >
-              <a-input
+              <a-textarea
                 v-model="judgeCaseItem.input"
-                placeholder="请输入测试输入用例"
+                placeholder="请输入测试输入用例（注意换行）"
               />
             </a-form-item>
             <a-form-item
@@ -94,9 +94,9 @@
               :label="`输出用例-${index}`"
               :key="index"
             >
-              <a-input
+              <a-textarea
                 v-model="judgeCaseItem.output"
-                placeholder="请输入测试输出用例"
+                placeholder="请输入测试输出用例（注意换行）"
               />
             </a-form-item>
             <a-button status="danger" @click="handleDelete(index)">
