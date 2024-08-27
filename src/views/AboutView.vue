@@ -39,11 +39,14 @@
     </div>
     <a-divider />
     <h2 style="color: #ff5353">请注意：</h2>
-    <p>
+    <span style="text-decoration: line-through">
+      <p>
       如果想测试一下<b>写题功能模块</b>，请注意题目的用例输入非ACM模式，参数在main函数的args里。（String[]
       args）
     </p>
     <p style="color: #666666">正在努力实现ACM模式ing....T T</p>
+    </span>
+    <h3>更新：已实现 ACM 模式 &#128526;</h3>
     <a-divider />
     <span style="font-size: 18px; color: #51416b">
       <h3>以下是预览图：（点击可放大）</h3>
@@ -81,38 +84,6 @@
           />
         </a-space>
       </a-image-preview-group>
-      <!--      -->
-      <!--      <a-space>-->
-      <!--        <a-image-->
-      <!--          width="500px"-->
-      <!--          src="https://ooo.0x0.ooo/2024/03/17/OgUseb.png"-->
-      <!--          title="主页就是题库"-->
-      <!--        />-->
-      <!--        <a-image-->
-      <!--          width="500px"-->
-      <!--          src="https://ooo.0x0.ooo/2024/03/17/OgUdaP.png"-->
-      <!--          title="做题页面"-->
-      <!--        />-->
-      <!--      </a-space>-->
-
-      <!--      <a-divider size="0" />-->
-      <!--      <a-space>-->
-      <!--        <a-image-->
-      <!--          width="500px"-->
-      <!--          src="https://ooo.0x0.ooo/2024/03/17/OgUlhB.png"-->
-      <!--          title="公屏看看大家的提交情况"-->
-      <!--        />-->
-      <!--        <a-image-->
-      <!--          width="500px"-->
-      <!--          src="https://ooo.0x0.ooo/2024/03/17/OgUYIg.png"-->
-      <!--          title="登录页面"-->
-      <!--        />-->
-      <!--      </a-space>-->
-      <!--      <a-image-->
-      <!--        width="500px"-->
-      <!--        src="https://ooo.0x0.ooo/2024/03/17/OgUVEl.png"-->
-      <!--        title="管理员添加题目页面"-->
-      <!--      />-->
     </span>
   </div>
 </template>

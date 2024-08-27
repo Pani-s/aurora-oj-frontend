@@ -6,7 +6,7 @@
       type="outlined"
       @click="loadData"
     >
-      <icon-refresh/>
+      <icon-refresh />
     </a-button>
     <h2 style="color: #51416b; font-family: 幼圆, sans-serif">我的历史提交</h2>
     <a-table
@@ -21,10 +21,23 @@
       }"
       @page-change="onPageChange"
     >
-      <template #judgeInfo="{ record }">
-        <!--              {{ JSON.stringify(record.judgeInfo) }}-->
-        {{ record.judgeInfo }}
+      <template #judgeInfoMemory="{ record }">
+        <!--        整数除法-->
+        <template
+          v-if="record.judgeInfo.memory && record.judgeInfo.memory !== 0"
+        >
+          {{ ((record.judgeInfo.memory / 1024) | 0) }}kb
+        </template>
+        <template v-else> -</template>
       </template>
+
+      <template #judgeInfoTime="{ record }">
+        <template v-if="record.judgeInfo.time && record.judgeInfo.time !== 0">
+          {{ record.judgeInfo.time }}ms
+        </template>
+        <template v-else> -</template>
+      </template>
+
       <template #status="{ record }">
         <!--              {{ JSON.stringify(record.judgeInfo) }}-->
         <div
@@ -54,7 +67,7 @@
     <a-modal v-model:visible="visible" @ok="handleOk" style="min-width: 50%">
       <template #title> 提交结果</template>
       <h3>详细信息</h3>
-      <MdViewer :value="detail || ''" />
+      <MdViewer :value="detail || '无详细信息'" />
       <a-divider />
       <h3>你的代码~</h3>
       <a-textarea :model-value="ans" auto-size readonly></a-textarea>
@@ -72,12 +85,13 @@ import {
 import message from "@arco-design/web-vue/es/message";
 import { QuestionStateEnum } from "@/views/questionsubmit/QuestionStateEnum";
 import { QuestionStateStrEnum } from "@/views/questionsubmit/QuestionStateStrEnum";
+import MdViewer from "@/components/MdViewer.vue";
 
 const visible = ref(false);
 const ans = ref<string>("");
 const detail = ref<string>("");
 
-const showAnswer = (record) => {
+const showAnswer = (record: any) => {
   visible.value = true;
   ans.value = record.code;
   detail.value = record.judgeInfo.details;
@@ -109,8 +123,6 @@ const searchParams = ref<QuestionSubmitQueryRequest>({
   language: undefined,
   pageSize: 10,
   current: 1,
-  sortOrder: "descend",
-  sortField: "updateTime",
 });
 
 const loadData = async () => {
@@ -124,11 +136,7 @@ const loadData = async () => {
     dataList.value = res?.data?.records;
     dataList.value.forEach((item: QuestionSubmit) => {
       item.status = QuestionStateEnum[item.status];
-      item.userId = maskNumber(item?.userId);
-      // item.judgeInfo = JSON.parse(item.judgeInfo);
-      // if (item.judgeInfo.memory == 0) {
-      //   item.judgeInfo.memory = "-";
-      // }
+      item.judgeInfo = JSON.parse(item.judgeInfo);
     });
     total.value = res?.data?.total;
   } else {
@@ -136,22 +144,22 @@ const loadData = async () => {
   }
 };
 
-function maskNumber(number: number) {
-  // 将数字转换为字符串
-  const numStr = number.toString();
-  // 获取字符串的长度
-  const length = numStr.length;
-  // 如果数字长度小于或等于5位，直接返回原数字
-  if (length <= 5) {
-    return numStr;
-  }
-  // 计算星号的数量，即除去前5位之外的数字长度
-  const starCount = length - 7;
-  // 创建遮蔽用的星号字符串
-  const mask = "*".repeat(starCount);
-  // 拼接字符串：开头5位 + 星号
-  return numStr.slice(0, 7) + mask;
-}
+// function maskNumber(number: number) {
+//   // 将数字转换为字符串
+//   const numStr = number.toString();
+//   // 获取字符串的长度
+//   const length = numStr.length;
+//   // 如果数字长度小于或等于5位，直接返回原数字
+//   if (length <= 5) {
+//     return numStr;
+//   }
+//   // 计算星号的数量，即除去前5位之外的数字长度
+//   const starCount = length - 7;
+//   // 创建遮蔽用的星号字符串
+//   const mask = "*".repeat(starCount);
+//   // 拼接字符串：开头5位 + 星号
+//   return numStr.slice(0, 7) + mask;
+// }
 
 /**
  * 页面加载时，请求数据
@@ -172,6 +180,8 @@ const columns = [
     children: [
       {
         title: "执行信息",
+        ellipsis: true,
+        tooltip: true,
         dataIndex: "judgeInfo.message",
         width: 60,
       },
@@ -185,11 +195,13 @@ const columns = [
       {
         title: "执行内存",
         dataIndex: "judgeInfo.memory",
+        slotName: "judgeInfoMemory",
         width: 50,
       },
       {
         title: "执行时间",
         dataIndex: "judgeInfo.time",
+        slotName: "judgeInfoTime",
         width: 50,
       },
     ],

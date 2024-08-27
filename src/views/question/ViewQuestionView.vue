@@ -75,8 +75,10 @@
                     readonly
                   />
                   <h3>运行信息：</h3>
-                  <h5 style="color: #5a5d8a">{{debugResponse.judgeInfo?.message}}</h5>
-                  {{debugResponse.judgeInfo?.details}}
+                  <h5 style="color: #5a5d8a">
+                    {{ debugResponse.judgeInfo?.message }}
+                  </h5>
+                  {{ debugResponse.judgeInfo?.details }}
                 </div>
               </div>
             </a-tab-pane>
@@ -107,7 +109,7 @@
           </a-form-item>
         </a-form>
         <CodeEditor
-          :value="form.code as string"
+          :value="form.code"
           :language="form.language"
           :theme="form.theme"
           :handle-change="changeCode"
@@ -192,10 +194,11 @@
 <script setup lang="ts">
 import { defineProps, onMounted, ref, withDefaults } from "vue";
 import {
+  BaseResponse_QuestionDebugResponse_,
   QuestionControllerService,
   QuestionDebugRequest,
   QuestionDebugResponse,
-  QuestionVO,
+  QuestionVO
 } from "../../../generated";
 import message from "@arco-design/web-vue/es/message";
 import CodeEditor from "@/components/CodeEditor.vue";
@@ -206,11 +209,6 @@ import { Message } from "@arco-design/web-vue";
 let loading = ref(false);
 let debugReq = ref<QuestionDebugRequest>({});
 let debugResponse = ref<QuestionDebugResponse>({});
-const handleCollapseChange = (val: any) => {
-  // 折叠变化时的回调函数，这里可以根据实际情况进行操作
-  console.log(val);
-};
-const activeNames = ["buttonA", "spacer", "buttonBAndBelow"];
 
 interface Props {
   id: string;
@@ -266,7 +264,7 @@ const doDebug = async () => {
     return;
   }
   loading.value = true;
-  const res = await QuestionControllerService.doQuestionSubmitDebugUsingPost({
+  const res : BaseResponse_QuestionDebugResponse_ = await QuestionControllerService.doQuestionSubmitDebugUsingPost({
     code: form.value.code,
     language: form.value.language,
     input: debugReq.value.input,
@@ -274,7 +272,10 @@ const doDebug = async () => {
   });
   console.log(res)
   if (res.code === 0) {
-    debugResponse.value.output = res.data.output;
+    debugResponse.value= { ...res.data };
+    if(res.data?.isSuccess === false){
+      message.error("代码执行错误 ~");
+    }
   } else {
     message.error("提交失败," + res.message);
   }
